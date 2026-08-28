@@ -1,0 +1,47 @@
+<html>
+  <head></head>
+  <body>
+    <h2>Chronos</h2>
+    <p>
+      Runs SOAR playbooks on a schedule without creating containers. The asset's
+      ingest schedule is the timer; a custom list is the job registry; every run
+      is attached to one container you create yourself and reuse forever.
+    </p>
+
+    <h3>Before configuring an asset</h3>
+    <ol>
+      <li>Create one container for scheduled runs to attach to, and note its ID.</li>
+      <li>Create an automation user with a role that can run playbooks, and copy
+          its <code>ph-auth-token</code>.</li>
+      <li>Create a custom list, one playbook per row in the first column. A row may
+          be <code>repo/Playbook Name</code> or a numeric playbook ID. A row starting
+          with <code>#</code> is skipped.</li>
+    </ol>
+
+    <h3>Asset configuration</h3>
+    <table border="1" cellpadding="4" cellspacing="0">
+      <tr><th>Field</th><th>Notes</th></tr>
+      <tr><td>base_url</td><td>SOAR as reachable from this host, including the port
+          (for example <code>https://127.0.0.1:8443</code>)</td></tr>
+      <tr><td>auth_token</td><td>ph-auth-token of the automation user</td></tr>
+      <tr><td>verify_server_cert</td><td>Off when using the loopback address, since
+          the certificate will not match it</td></tr>
+      <tr><td>container_id</td><td>The container every scheduled playbook runs against</td></tr>
+      <tr><td>playbook_list</td><td>Name of the custom list for this schedule, case sensitive</td></tr>
+      <tr><td>run_scope</td><td><code>new</code> or <code>all</code></td></tr>
+    </table>
+
+    <h3>Scheduling</h3>
+    <p>
+      Set the interval or cron expression on the asset's <b>Ingest Settings</b> tab.
+      For more than one cadence, create one asset and one custom list per interval.
+      The label on the ingest tab is required by the platform and unused by this app.
+    </p>
+
+    <h3>Test connectivity</h3>
+    <p>
+      Checks reachability, then the token and container, then the custom list, and
+      reports the row count. The check that fails names the field to fix.
+    </p>
+  </body>
+</html>
