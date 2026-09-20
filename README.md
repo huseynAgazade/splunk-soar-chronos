@@ -102,6 +102,15 @@ convention plus a label, so that scheduling becomes labelling. Have it count wha
 matched and complain when the count is zero — a misspelled label would otherwise write an
 empty list and silently stop the schedule.
 
+## How this was built
+
+Written with an AI coding assistant. The approach is the part that matters: SOAR has no
+native playbook scheduler, and the common workaround — ingesting one empty event per tick
+— leaves a container behind every time it fires. Chronos uses `on_poll` to POST directly
+to `/rest/playbook_run` against a fixed container, so it creates nothing at all.
+
+---
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
